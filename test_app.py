@@ -1,4 +1,4 @@
-﻿from app import fast_sum_of_squares, sum_of_squares
+from app import fast_sum_of_squares, sum_of_squares
 
 
 def test_sum_of_squares():
