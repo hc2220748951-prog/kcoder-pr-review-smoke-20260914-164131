@@ -20,6 +20,7 @@ def fast_sum_of_squares(numbers: Iterable[int]) -> int:
 
 
 def _benchmark(numbers: Sequence[int], repeat: int = 1_000_000) -> None:
+    """Run each implementation *repeat* times over *numbers* and print wall time."""
     for fn in (sum_of_squares, fast_sum_of_squares):
         t0 = time.perf_counter()
         for _ in range(repeat):
@@ -47,7 +48,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--benchmark",
         action="store_true",
-        help="Time both implementations and exit (ignores --slow and numbers).",
+        help="Time both implementations over the given numbers (default [1,2,3,4]).",
     )
     return p
 
@@ -57,7 +58,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.benchmark:
-        _benchmark([1, 2, 3, 4])
+        # benchmark reuses positional numbers if provided, else falls back to [1,2,3,4]
+        nums = args.numbers or [1, 2, 3, 4]
+        _benchmark(nums)
         return 0
 
     numbers = args.numbers if args.numbers else [1, 2, 3]
